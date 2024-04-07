@@ -8,6 +8,11 @@ To build the 8.0.3 installer, you need a machine with Visual Studio 2022 ARM64 a
 ```
 build-8.0.3.bat
 ```
+To build an installer for any newer or older version, just run:
+```
+build.bat "<url of the hosting bundle EXE>"
+```
+This will create a patched installer from that version unless there are some breaking changes in the next ASP.NET Hosting Bundle releases.
 
 ## Install
 Install the EXE from Releases. You must first uninstall the ASP.NET Core Hosting Bundle because these installers replace it. To install it silently, run:
