@@ -1,0 +1,32 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package 
+	  Name="DotnetHostingARM64EC" 
+	  Manufacturer="Lukas Volf" 
+	  Version="1.0.0.0" 
+	  UpgradeCode="60ac22f9-a292-43b4-a019-12c70fa49807">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <Feature Id="Main">
+      <ComponentRef Id="AspNetHostingComponent" />
+      <ComponentRef Id="AspNetHostingOutOfProcessComponent" />
+    </Feature>
+
+	<Component Id="AspNetHostingComponent" Directory="INSTALLFOLDER">
+	   <File Source="..\bin\aspnetcorev2.dll" />
+	</Component>
+
+	<Component Id="AspNetHostingOutOfProcessComponent" Directory="VersionFolder">
+	   <File Source="..\bin\aspnetcorev2_outofprocess.dll" />
+	</Component>
+
+	<StandardDirectory Id="ProgramFiles6432Folder">	
+		<Directory Id="IISFolder" Name="IIS">
+			<Directory Id="AspNetCoreModule" Name="Asp.Net Core Module">
+				<Directory Id="INSTALLFOLDER" Name="V2">
+					<Directory Id="VersionFolder" Name="$(var.AspNetVersion)" />
+				</Directory>
+			</Directory>
+		</Directory>
+	</StandardDirectory>
+  </Package>
+</Wix>

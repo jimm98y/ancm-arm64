@@ -1,0 +1,6 @@
+﻿<Project Sdk="WixToolset.Sdk/5.0.0">
+	<PropertyGroup>
+		<AspNetVersion>18.0.24047</AspNetVersion>
+		<DefineConstants>AspNetVersion=$(AspNetVersion)</DefineConstants>
+	</PropertyGroup>
+</Project>
