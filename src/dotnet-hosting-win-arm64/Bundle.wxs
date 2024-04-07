@@ -1,6 +1,6 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
 	<Bundle
-		Name="Microsoft .NET $(var.NetVersion) - Windows Server Hosting"
+		Name="Microsoft .NET - Windows Server Hosting"
 		Manufacturer="Lukas Volf"
 		Version="$(var.NetVersion).0"
 		UpgradeCode="{22CF255E-11C6-3215-9641-4DD50F7193BF}"
@@ -57,7 +57,7 @@
 			Variable="ASPNETCORE_PATCH" />
 
 		<PayloadGroup Id="AspNetCoreMsiX64">
-			<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+			<Payload Name="AspNetCoreModuleV2_x64_ex.msi" SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
 		</PayloadGroup>
 
 		<Chain>
@@ -99,18 +99,11 @@
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
 
-			<ExePackage
-				Id="AspNetCoreModuleX64"
-				CacheId="AspNetCoreModuleX64$(var.NetVersion)"
-				PerMachine="yes"
-				DetectCondition="ASPNETCORE_X64 &gt;= v$(var.NetVersion)"
-				InstallArguments="install $(var.AspNetVersion)"
-				UninstallArguments="uninstall $(var.AspNetVersion)">
-				<PayloadGroupRef Id="AspNetCoreMsiX64" />
-				<ExePackagePayload SourceFile="fix0.bat" />
-				<ExitCode Value="0" Behavior="success" />
-			</ExePackage>
-
+			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" ForcePerMachine="yes" bal:DisplayInternalUICondition="false">
+				<MsiProperty Name="SKIPUNINSTALLCA" Value="1" />
+				<MsiProperty Name="OPT_NO_SHARED_CONFIG_CHECK" Value="0" />
+			</MsiPackage>
+			
 			<ExePackage
 				Id="CopyX64"
 				PerMachine="yes"
@@ -121,7 +114,10 @@
 				<ExitCode Value="0" Behavior="success" />
 			</ExePackage>
 
-			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
+			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" ForcePerMachine="yes" bal:DisplayInternalUICondition="false">
+				<MsiProperty Name="SKIPUNINSTALLCA" Value="1" />
+				<MsiProperty Name="OPT_NO_SHARED_CONFIG_CHECK" Value="0" />
+			</MsiPackage>
 
 			<ExePackage
 				Id="CopyARM64"
