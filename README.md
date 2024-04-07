@@ -20,5 +20,8 @@ Install the EXE from Releases. You must first uninstall the ASP.NET Core Hosting
 dotnet-hosting-8.0.3-win-arm64.exe /s
 ```
 
+## Known issues
+- Upgrading from earlier version of the installer using UI mode will pop up an error in a custom action from AspNetCoreModuleV2_x64 - it can be ignored (click OK) and the upgrade will complete. Silent installation does not pop up any errors.
+
 ## Credits
 All the research in IIS DLL loading has been done by lextm in https://github.com/lextm/ancm-arm64, thank you very much!
