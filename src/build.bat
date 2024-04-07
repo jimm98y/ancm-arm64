@@ -16,6 +16,8 @@ if ($installationPath -and (test-path "$installationPath\Common7\Tools\vsdevcmd.
   }
 }
 
+Remove-Item -Recurse -Force "./temp"
+
 mkdir temp
 mkdir temp/obj
 mkdir temp/bin
