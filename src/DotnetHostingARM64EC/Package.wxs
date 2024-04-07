@@ -6,6 +6,9 @@
 	  UpgradeCode="60ac22f9-a292-43b4-a019-12c70fa49807">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
+	<!-- The files might be still in use during uninstallation, so disable the restart manager in order to allow uninstallation to continue -->
+	<Property Id="MSIRESTARTMANAGERCONTROL" Value="Disable" Secure="yes" />
+
     <Feature Id="Main">
       <ComponentRef Id="AspNetHostingComponent" />
       <ComponentRef Id="AspNetHostingOutOfProcessComponent" />

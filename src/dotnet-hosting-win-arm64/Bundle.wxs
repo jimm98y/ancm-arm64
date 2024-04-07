@@ -1,139 +1,146 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
-  <Bundle Name="Microsoft .NET $(var.NetVersion) - Windows Server Hosting" Manufacturer="Lukas Volf" Version="1.0.0.0" UpgradeCode="70722b17-3290-4532-989f-a1ec10740c0a" Compressed="yes">
-    <BootstrapperApplication>
-      <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/jimm98y/ancm-arm64" Theme="hyperlinkLicense" />
-    </BootstrapperApplication>
+	<Bundle
+		Name="Microsoft .NET $(var.NetVersion) - Windows Server Hosting"
+		Manufacturer="Lukas Volf"
+		Version="$(var.NetVersion).0"
+		UpgradeCode="{22CF255E-11C6-3215-9641-4DD50F7193BF}"
+		Compressed="yes"
+		DisableModify="yes">
+		<BootstrapperApplication>
+			<bal:WixStandardBootstrapperApplication
+				LicenseUrl="https://github.com/jimm98y/ancm-arm64"
+				Theme="hyperlinkLicense"
+				LogoFile="logo.jpg" />
+		</BootstrapperApplication>
 
-	  <netfx:DotNetCoreSearch
-		  Variable="NETCORE_ARM64"
-		  RuntimeType="core"
-		  Platform="arm64"
-		  MajorVersion="$(var.NetMajorVersion)"
-		  />
-	  <netfx:DotNetCoreSearch
-		  Variable="NETCORE_X64"
-		  RuntimeType="core"
-		  Platform="x64"
-		  MajorVersion="$(var.NetMajorVersion)"
-		  />
-	  <netfx:DotNetCoreSearch
-		  Variable="NETCORE_X86"
-		  RuntimeType="core"
-		  Platform="x86"
-	      MajorVersion="$(var.NetMajorVersion)"
-		  />
+		<netfx:DotNetCoreSearch
+			Variable="NETCORE_ARM64"
+			RuntimeType="core"
+			Platform="arm64"
+			MajorVersion="$(var.NetMajorVersion)" />
+		<netfx:DotNetCoreSearch
+			Variable="NETCORE_X64"
+			RuntimeType="core"
+			Platform="x64"
+			MajorVersion="$(var.NetMajorVersion)" />
+		<netfx:DotNetCoreSearch
+			Variable="NETCORE_X86"
+			RuntimeType="core"
+			Platform="x86"
+			MajorVersion="$(var.NetMajorVersion)" />
 
-	  <netfx:DotNetCoreSearch
-		  Variable="ASPNETCORE_ARM64"
-		  RuntimeType="aspnet"
-		  Platform="arm64"
-		  MajorVersion="$(var.NetMajorVersion)"
-		  />
-	  <netfx:DotNetCoreSearch
-		  Variable="ASPNETCORE_X64"
-		  RuntimeType="aspnet"
-		  Platform="x64"
-		  MajorVersion="$(var.NetMajorVersion)"
-		  />
-	  <netfx:DotNetCoreSearch
-		  Variable="ASPNETCORE_X86"
-		  RuntimeType="aspnet"
-		  Platform="x86"
-	      MajorVersion="$(var.NetMajorVersion)"
-		  />
+		<netfx:DotNetCoreSearch
+			Variable="ASPNETCORE_ARM64"
+			RuntimeType="aspnet"
+			Platform="arm64"
+			MajorVersion="$(var.NetMajorVersion)" />
+		<netfx:DotNetCoreSearch
+			Variable="ASPNETCORE_X64"
+			RuntimeType="aspnet"
+			Platform="x64"
+			MajorVersion="$(var.NetMajorVersion)" />
+		<netfx:DotNetCoreSearch
+			Variable="ASPNETCORE_X86"
+			RuntimeType="aspnet"
+			Platform="x86"
+			MajorVersion="$(var.NetMajorVersion)" />
 
-	  <util:FileSearch 
-		  Path="[ProgramFilesFolder]\IIS\Asp.Net Core Module\V2\$(var.AspNetVersion)\aspnetcorev2_outofprocess.dll"
-		  Result="exists"
-		  Variable="ASPNETCORE_HOSTING_X86"
-	      />
+		<util:FileSearch
+			Path="[ProgramFilesFolder]\IIS\Asp.Net Core Module\V2\$(var.AspNetVersion)\aspnetcorev2_outofprocess.dll"
+			Result="exists"
+			Variable="ASPNETCORE_HOSTING_X86" />
 
-	  <util:FileSearch
-		  Path="[ProgramFiles64Folder]\IIS\Asp.Net Core Module\V2\aspnetcorev2_x64.dll"
-		  Result="exists"
-		  Variable="ASPNETCORE_PATCH"
-	      />
+		<util:FileSearch
+			Path="[ProgramFiles64Folder]\IIS\Asp.Net Core Module\V2\aspnetcorev2_x64.dll"
+			Result="exists"
+			Variable="ASPNETCORE_PATCH" />
 
-	  <Chain>
-		<ExePackage
-			DetectCondition="NETCORE_ARM64"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-arm64.exe" />
-		<ExePackage
-			DetectCondition="NETCORE_X64"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x64.exe" />
-		<ExePackage
-			DetectCondition="NETCORE_X86"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x86.exe" />
+		<Chain>
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="NETCORE_ARM64"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-arm64.exe" />
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="NETCORE_X64"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x64.exe" />
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="NETCORE_X86"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x86.exe" />
 
-		<ExePackage
-			DetectCondition="ASPNETCORE_ARM64"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-arm64.exe" />
-		<ExePackage
-			DetectCondition="ASPNETCORE_X64"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x64.exe" />
-		<ExePackage
-			DetectCondition="ASPNETCORE_X86"
-			InstallArguments="/install /quiet /norestart"
-			RepairArguments="/repair /quiet /norestart"
-			UninstallArguments="/uninstall /quiet /norestart"
-			SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_ARM64"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-arm64.exe" />
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_X64"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x64.exe" />
+			<ExePackage
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_X86"
+				InstallArguments="/install /quiet /norestart"
+				RepairArguments="/repair /quiet /norestart"
+				UninstallArguments="/uninstall /quiet /norestart"
+				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
 
-		  <MsiPackage
-			SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+			<MsiPackage SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
 
-		  <ExePackage
-			  Id="CopyX64"
-			  DetectCondition="ASPNETCORE_PATCH"
-			  InstallCondition="NOT ASPNETCORE_PATCH"
-			  InstallArguments="install $(var.AspNetVersion)"
-			  UninstallArguments="uninstall $(var.AspNetVersion)">
-			  <ExePackagePayload SourceFile="fix1.bat" />
-		  </ExePackage>
-
-		  <MsiPackage
-			SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
-		  
-		  <ExePackage
-				Id="CopyARM64"
+			<ExePackage
+				Id="CopyX64"
+				PerMachine="yes"
 				DetectCondition="ASPNETCORE_PATCH"
 				InstallCondition="NOT ASPNETCORE_PATCH"
 				InstallArguments="install $(var.AspNetVersion)"
 				UninstallArguments="uninstall $(var.AspNetVersion)">
-			  <ExePackagePayload SourceFile="fix2.bat" />
-		  </ExePackage>
-		  
-		  <ExePackage
-			  Id="AspNetCoreModuleX86"
-			  DetectCondition="ASPNETCORE_HOSTING_X86"
-			  InstallCondition="NOT ASPNETCORE_HOSTING_X86"
-			  InstallArguments="install $(var.AspNetVersion)"
-			  UninstallArguments="uninstall $(var.AspNetVersion)"
-			  >
-			  <Payload SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x86.msi" />
-			  <ExePackagePayload SourceFile="fix3.bat" />
-		  </ExePackage>
+				<ExePackagePayload SourceFile="fix1.bat" />
+				<ExitCode Value="0" Behavior="success" />
+			</ExePackage>
 
-		  <MsiPackage
-			SourceFile="..\DotnetHostingARM64EC\bin\ARM64\Release\en-US\DotnetHostingARM64EC.msi" />
+			<MsiPackage SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
 
-		  <MsiPackage
-			SourceFile="..\msi\AttachedContainer\WindowsServerHostingBundleOptions.msi" />
-    </Chain>
+			<ExePackage
+				  Id="CopyARM64"
+				  PerMachine="yes"
+				  DetectCondition="ASPNETCORE_PATCH"
+				  InstallCondition="NOT ASPNETCORE_PATCH"
+				  InstallArguments="install $(var.AspNetVersion)"
+				  UninstallArguments="uninstall $(var.AspNetVersion)">
+				<ExePackagePayload SourceFile="fix2.bat" />
+				<ExitCode Value="0" Behavior="success" />
+			</ExePackage>
 
-  </Bundle>
+			<ExePackage
+				Id="AspNetCoreModuleX86"
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_PATCH"
+				InstallCondition="NOT ASPNETCORE_PATCH"
+				InstallArguments="install $(var.AspNetVersion)"
+				UninstallArguments="uninstall $(var.AspNetVersion)">
+				<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+				<ExePackagePayload SourceFile="fix3.bat" />
+				<ExitCode Value="0" Behavior="success" />
+			</ExePackage>
+
+			<MsiPackage SourceFile="..\DotnetHostingARM64EC\bin\ARM64\Release\en-US\DotnetHostingARM64EC.msi" Visible="no" />
+
+			<MsiPackage SourceFile="..\msi\AttachedContainer\WindowsServerHostingBundleOptions.msi" />
+		</Chain>
+	</Bundle>
 </Wix>

@@ -3,6 +3,9 @@
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="fix2.bat" />
     <None Include="fix3.bat" />
     <None Include="fix1.bat" />
