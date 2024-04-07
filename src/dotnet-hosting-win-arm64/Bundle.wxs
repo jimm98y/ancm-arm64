@@ -10,7 +10,8 @@
 			<bal:WixStandardBootstrapperApplication
 				LicenseUrl="https://github.com/jimm98y/ancm-arm64"
 				Theme="hyperlinkLicense"
-				LogoFile="logo.jpg" />
+				LogoFile="logo.jpg"
+				SuppressOptionsUI="yes" />
 		</BootstrapperApplication>
 
 		<netfx:DotNetCoreSearch
