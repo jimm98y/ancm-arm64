@@ -4,7 +4,9 @@
  exit /b
 #>
 
-$dotnetHostingUrl = "https://download.visualstudio.microsoft.com/download/pr/20598243-c38f-4538-b2aa-af33bc232f80/ea9b2ca232f59a6fdc84b7a31da88464/dotnet-hosting-8.0.3-win.exe"
+param (
+    [string]$dotnetHostingUrl = "https://download.visualstudio.microsoft.com/download/pr/20598243-c38f-4538-b2aa-af33bc232f80/ea9b2ca232f59a6fdc84b7a31da88464/dotnet-hosting-8.0.3-win.exe"
+)
 
 $installationPath = & "${Env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationPath -requires "Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
 if ($installationPath -and (test-path "$installationPath\Common7\Tools\vsdevcmd.bat")) {
@@ -30,7 +32,9 @@ link /dll /noentry /machine:arm64x /defArm64Native:aspnetcorev2_outofprocess_arm
 $wixDark = "${Env:ProgramFiles(x86)}\WiX Toolset v3.14\bin\dark.exe"
 if (-not(Test-Path "$wixDark" -PathType Leaf)) {
    mkdir temp
+   $ProgressPreference = 'SilentlyContinue'
    Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix3141rtm/wix314.exe" -OutFile "./temp/wix314.exe"
+   $ProgressPreference = 'Continue'
    Start-Process -FilePath "./temp/wix314.exe" -ArgumentList "/s" -Wait
 }
 
@@ -39,7 +43,9 @@ $dotnetMajorVersion = $dotnetVersion -split "\." | Select-Object -First 1
 $dotnetHostingPath = "./temp/dotnet-hosting-$dotnetVersion-win.exe"
 if (-not(Test-Path "$dotnetHostingPath" -PathType Leaf)) {
    mkdir temp
+   $ProgressPreference = 'SilentlyContinue'
    Invoke-WebRequest -Uri "$dotnetHostingUrl" -OutFile "./temp/dotnet-hosting-$dotnetVersion-win.exe"
+   $ProgressPreference = 'Continue'
 }
 
 Start-Process -FilePath "$wixDark" -ArgumentList "$dotnetHostingPath -x .\msi" -Wait
@@ -51,4 +57,4 @@ $aspnetcoreVersion = (Get-ChildItem "$aspnetcoreDir" -Directory | Select-Object 
 dotnet build "./DotnetHostingARM64EC/DotnetHostingARM64EC.wixproj" -c Release -p:Platform=ARM64 -p:AspNetVersion="$aspnetcoreVersion"
 dotnet build "./dotnet-hosting-win-arm64/dotnet-hosting-win-arm64.wixproj" -c Release -p:Platform=ARM64 -p:AspNetVersion="$aspnetcoreVersion" -p:NetVersion="$dotnetVersion" -p:NetMajorVersion="$dotnetMajorVersion"
 
-Read-Host -Prompt "Done - press Enter to exit"
+Copy-Item -Path "./dotnet-hosting-win-arm64/bin/ARM64/Release/dotnet-hosting-win-arm64.exe" -Destination "./dotnet-hosting-$dotnetVersion-win-arm64.exe" -Force

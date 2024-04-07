@@ -353,3 +353,4 @@ src/*.lib
 src/msi/**
 src/msi_x64/**
 src/temp/**
+src/*.exe
