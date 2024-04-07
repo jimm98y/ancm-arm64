@@ -15,11 +15,11 @@
     </Feature>
 
 	<Component Id="AspNetHostingComponent" Directory="INSTALLFOLDER">
-	   <File Source="..\bin\aspnetcorev2.dll" />
+	   <File Source="..\temp\bin\aspnetcorev2.dll" />
 	</Component>
 
 	<Component Id="AspNetHostingOutOfProcessComponent" Directory="VersionFolder">
-	   <File Source="..\bin\aspnetcorev2_outofprocess.dll" />
+	   <File Source="..\temp\bin\aspnetcorev2_outofprocess.dll" />
 	</Component>
 
 	<StandardDirectory Id="ProgramFiles6432Folder">	

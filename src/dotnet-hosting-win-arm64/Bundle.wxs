@@ -63,21 +63,21 @@
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-arm64.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-arm64.exe" />
 			<ExePackage
 				PerMachine="yes"
 				DetectCondition="NETCORE_X64"
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x64.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x64.exe" />
 			<ExePackage
 				PerMachine="yes"
 				DetectCondition="NETCORE_X86"
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x86.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x86.exe" />
 
 			<ExePackage
 				PerMachine="yes"
@@ -85,23 +85,23 @@
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-arm64.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-arm64.exe" />
 			<ExePackage
 				PerMachine="yes"
 				DetectCondition="ASPNETCORE_X64"
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x64.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x64.exe" />
 			<ExePackage
 				PerMachine="yes"
 				DetectCondition="ASPNETCORE_X86"
 				InstallArguments="/install /quiet /norestart"
 				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
-				SourceFile="..\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
+				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
 
-			<MsiPackage SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
 
 			<ExePackage
 				Id="CopyX64"
@@ -114,7 +114,7 @@
 				<ExitCode Value="0" Behavior="success" />
 			</ExePackage>
 
-			<MsiPackage SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
+			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
 
 			<ExePackage
 				  Id="CopyARM64"
@@ -134,14 +134,14 @@
 				InstallCondition="NOT ASPNETCORE_PATCH"
 				InstallArguments="install $(var.AspNetVersion)"
 				UninstallArguments="uninstall $(var.AspNetVersion)">
-				<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+				<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
 				<ExePackagePayload SourceFile="fix3.bat" />
 				<ExitCode Value="0" Behavior="success" />
 			</ExePackage>
 
 			<MsiPackage SourceFile="..\DotnetHostingARM64EC\bin\ARM64\Release\en-US\DotnetHostingARM64EC.msi" Visible="no" />
 
-			<MsiPackage SourceFile="..\msi\AttachedContainer\WindowsServerHostingBundleOptions.msi" />
+			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\WindowsServerHostingBundleOptions.msi" />
 		</Chain>
 	</Bundle>
 </Wix>
