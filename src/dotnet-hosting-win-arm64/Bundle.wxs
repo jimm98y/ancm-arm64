@@ -98,7 +98,8 @@
 
 		  <ExePackage
 			  Id="CopyX64"
-			  DetectCondition="NOT ASPNETCORE_PATCH"
+			  DetectCondition="ASPNETCORE_PATCH"
+			  InstallCondition="NOT ASPNETCORE_PATCH"
 			  InstallArguments="install $(var.AspNetVersion)"
 			  UninstallArguments="uninstall $(var.AspNetVersion)">
 			  <ExePackagePayload SourceFile="fix1.bat" />
@@ -109,7 +110,8 @@
 		  
 		  <ExePackage
 				Id="CopyARM64"
-				DetectCondition="NOT ASPNETCORE_PATCH"
+				DetectCondition="ASPNETCORE_PATCH"
+				InstallCondition="NOT ASPNETCORE_PATCH"
 				InstallArguments="install $(var.AspNetVersion)"
 				UninstallArguments="uninstall $(var.AspNetVersion)">
 			  <ExePackagePayload SourceFile="fix2.bat" />
@@ -117,7 +119,8 @@
 		  
 		  <ExePackage
 			  Id="AspNetCoreModuleX86"
-			  DetectCondition="NOT ASPNETCORE_HOSTING_X86"
+			  DetectCondition="ASPNETCORE_HOSTING_X86"
+			  InstallCondition="NOT ASPNETCORE_HOSTING_X86"
 			  InstallArguments="install $(var.AspNetVersion)"
 			  UninstallArguments="uninstall $(var.AspNetVersion)"
 			  >
