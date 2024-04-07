@@ -6,9 +6,10 @@
     <Content Include="logo.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="fix0.bat" />
+    <None Include="fix1.bat" />
     <None Include="fix2.bat" />
     <None Include="fix3.bat" />
-    <None Include="fix1.bat" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Bal.wixext" Version="5.0.0" />

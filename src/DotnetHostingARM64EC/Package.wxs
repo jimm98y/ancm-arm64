@@ -2,7 +2,7 @@
   <Package 
 	  Name="DotnetHostingARM64EC" 
 	  Manufacturer="Lukas Volf" 
-	  Version="1.0.0.0" 
+	  Version="$(var.AspNetVersion)" 
 	  UpgradeCode="60ac22f9-a292-43b4-a019-12c70fa49807">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 

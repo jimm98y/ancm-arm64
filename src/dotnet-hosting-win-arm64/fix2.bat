@@ -4,6 +4,6 @@ if "%~1"=="install" (
 )
 
 if "%~1"=="uninstall" (
-	move "%ProgramFiles%\IIS\Asp.Net Core Module\V2\aspnetcorev2_arm64.dll" "%ProgramFiles%\IIS\Asp.Net Core Module\V2\aspnetcorev2.dll"
+    move "%ProgramFiles%\IIS\Asp.Net Core Module\V2\aspnetcorev2_arm64.dll" "%ProgramFiles%\IIS\Asp.Net Core Module\V2\aspnetcorev2.dll"
     del "%windir%\system32\inetsrv\aspnetcorev2_outofprocess_arm64.dll"
 )

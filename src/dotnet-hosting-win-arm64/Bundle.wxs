@@ -56,58 +56,65 @@
 			Result="exists"
 			Variable="ASPNETCORE_PATCH" />
 
+		<PayloadGroup Id="AspNetCoreMsiX64">
+			<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+		</PayloadGroup>
+
 		<Chain>
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="NETCORE_ARM64"
+				DetectCondition="NETCORE_ARM64 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-arm64.exe" />
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="NETCORE_X64"
+				DetectCondition="NETCORE_X64 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x64.exe" />
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="NETCORE_X86"
+				DetectCondition="NETCORE_X86 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\dotnet-runtime-$(var.NetVersion)-win-x86.exe" />
 
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="ASPNETCORE_ARM64"
+				DetectCondition="ASPNETCORE_ARM64 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-arm64.exe" />
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="ASPNETCORE_X64"
+				DetectCondition="ASPNETCORE_X64 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x64.exe" />
 			<ExePackage
 				PerMachine="yes"
-				DetectCondition="ASPNETCORE_X86"
+				DetectCondition="ASPNETCORE_X86 &gt;= v$(var.NetVersion)"
 				InstallArguments="/install /quiet /norestart"
-				RepairArguments="/repair /quiet /norestart"
 				UninstallArguments="/uninstall /quiet /norestart"
 				SourceFile="..\temp\msi\AttachedContainer\aspnetcore-runtime-$(var.NetVersion)-win-x86.exe" />
 
-			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+			<ExePackage
+				Id="AspNetCoreModuleX64"
+				CacheId="AspNetCoreModuleX64$(var.NetVersion)"
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_X64 &gt;= v$(var.NetVersion)"
+				InstallArguments="install $(var.AspNetVersion)"
+				UninstallArguments="uninstall $(var.AspNetVersion)">
+				<PayloadGroupRef Id="AspNetCoreMsiX64" />
+				<ExePackagePayload SourceFile="fix0.bat" />
+				<ExitCode Value="0" Behavior="success" />
+			</ExePackage>
 
 			<ExePackage
 				Id="CopyX64"
 				PerMachine="yes"
-				DetectCondition="ASPNETCORE_PATCH"
-				InstallCondition="NOT ASPNETCORE_PATCH"
+				DetectCondition="ASPNETCORE_X64 &gt;= v$(var.NetVersion)"
 				InstallArguments="install $(var.AspNetVersion)"
 				UninstallArguments="uninstall $(var.AspNetVersion)">
 				<ExePackagePayload SourceFile="fix1.bat" />
@@ -117,24 +124,23 @@
 			<MsiPackage SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_arm64.msi" />
 
 			<ExePackage
-				  Id="CopyARM64"
-				  PerMachine="yes"
-				  DetectCondition="ASPNETCORE_PATCH"
-				  InstallCondition="NOT ASPNETCORE_PATCH"
-				  InstallArguments="install $(var.AspNetVersion)"
-				  UninstallArguments="uninstall $(var.AspNetVersion)">
+				Id="CopyARM64"
+				PerMachine="yes"
+				DetectCondition="ASPNETCORE_ARM64 &gt;= v$(var.NetVersion)"
+				InstallArguments="install $(var.AspNetVersion)"
+				UninstallArguments="uninstall $(var.AspNetVersion)">
 				<ExePackagePayload SourceFile="fix2.bat" />
 				<ExitCode Value="0" Behavior="success" />
 			</ExePackage>
 
 			<ExePackage
 				Id="AspNetCoreModuleX86"
+				CacheId="AspNetCoreModuleX86$(var.NetVersion)"
 				PerMachine="yes"
-				DetectCondition="ASPNETCORE_PATCH"
-				InstallCondition="NOT ASPNETCORE_PATCH"
+				DetectCondition="ASPNETCORE_X86 &gt;= v$(var.NetVersion)"
 				InstallArguments="install $(var.AspNetVersion)"
 				UninstallArguments="uninstall $(var.AspNetVersion)">
-				<Payload Name="AspNetCoreModuleV2_x64.msi" SourceFile="..\temp\msi\AttachedContainer\AspNetCoreModuleV2_x64.msi" />
+				<PayloadGroupRef Id="AspNetCoreMsiX64" />
 				<ExePackagePayload SourceFile="fix3.bat" />
 				<ExitCode Value="0" Behavior="success" />
 			</ExePackage>
